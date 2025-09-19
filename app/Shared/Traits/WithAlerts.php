@@ -22,18 +22,6 @@ trait WithAlerts
         ]);
     }
 
-    public function showConfirm($title, $text, $method, $params = [], $confirmText = 'Yes, proceed!', $cancelText = 'Cancel')
-    {
-        $this->dispatch('show-confirm', [
-            'title' => $title,
-            'text' => $text,
-            'method' => $method,
-            'params' => $params,
-            'confirmText' => $confirmText,
-            'cancelText' => $cancelText,
-        ]);
-    }
-
     public function showSuccess($title, $text = '')
     {
         $this->showAlert('success', $title, $text);

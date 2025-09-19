@@ -7,6 +7,7 @@ use App\Domains\Role\Models\Role;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\Rule;
 use Livewire\Component;
+use Livewire\Attributes\On;
 
 class UserForm extends Component
 {
@@ -54,6 +55,7 @@ class UserForm extends Component
         $this->isEditing = true;
     }
 
+    #[On('openUserForm')] 
     public function openModal($userId = null)
     {
         $this->resetForm();

@@ -36,6 +36,13 @@ Route::middleware(['auth'])->group(function () {
     })->name('profile.index');
 });
 
+// Provider Management Routes
+Route::middleware(['auth'])->group(function () {
+    Route::get('/providers', function () {
+        return view('providers.index');
+    })->name('providers.index');
+});
+
 Auth::routes();
 
 Route::get('/home', function () {

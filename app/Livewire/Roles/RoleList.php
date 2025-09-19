@@ -8,6 +8,7 @@ use App\Shared\Services\LoggerService;
 use App\Shared\Traits\WithAlerts;
 use Livewire\Component;
 use Livewire\WithPagination;
+use Livewire\Attributes\On;
 
 class RoleList extends Component
 {
@@ -25,6 +26,12 @@ class RoleList extends Component
         'showInactive' => ['except' => false],
         'filterByPermissions' => ['except' => ''],
     ];
+
+    #[On('roleSaved')] 
+    public function refreshList()
+    {
+        $this->render();
+    }
 
     public function updatingSearch()
     {
@@ -79,29 +86,9 @@ class RoleList extends Component
         $this->showSuccessToast("Role {$status} successfully!");
     }
 
-    public function confirmDeleteRole($roleId)
+    #[On('deleteRole')] 
+    public function deleteRole($roleId)
     {
-        $role = Role::findOrFail($roleId);
-        
-        // Prevent deletion of super-admin role
-        if ($role->name === 'super-admin') {
-            $this->showErrorToast('Cannot delete super-admin role.');
-            return;
-        }
-        
-        $this->showConfirm(
-            'Delete Role',
-            "Are you sure you want to delete role '{$role->display_name}'? This action cannot be undone.",
-            'deleteRole',
-            ['roleId' => $roleId],
-            'Yes, delete it!',
-            'Cancel'
-        );
-    }
-
-    public function deleteRole($params)
-    {
-        $roleId = $params['roleId'];
         $role = Role::findOrFail($roleId);
         
         // Log the action before deletion

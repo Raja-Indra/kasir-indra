@@ -6,6 +6,7 @@ use App\Domains\Role\Models\Role;
 use App\Domains\Permission\Models\Permission;
 use Illuminate\Validation\Rule;
 use Livewire\Component;
+use Livewire\Attributes\On;
 
 class RoleForm extends Component
 {
@@ -61,6 +62,7 @@ class RoleForm extends Component
         $this->isEditing = true;
     }
 
+    #[On('openRoleForm')] 
     public function openModal($roleId = null)
     {
         $this->resetForm();

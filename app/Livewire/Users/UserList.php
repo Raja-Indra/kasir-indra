@@ -8,6 +8,7 @@ use App\Shared\Services\LoggerService;
 use App\Shared\Traits\WithAlerts;
 use Livewire\Component;
 use Livewire\WithPagination;
+use Livewire\Attributes\On;
 
 class UserList extends Component
 {
@@ -23,6 +24,12 @@ class UserList extends Component
         'search' => ['except' => ''],
         'showInactive' => ['except' => false],
     ];
+
+    #[On('userSaved')] 
+    public function refreshList()
+    {
+        $this->render();
+    }
 
     public function updatingSearch()
     {
@@ -71,22 +78,9 @@ class UserList extends Component
         $this->showSuccessToast("User {$status} successfully!");
     }
 
-    public function confirmDeleteUser($userId)
+    #[On('deleteUser')] 
+    public function deleteUser($userId)
     {
-        $user = User::findOrFail($userId);
-        $this->showConfirm(
-            'Delete User',
-            "Are you sure you want to delete user '{$user->name}'? This action cannot be undone.",
-            'deleteUser',
-            ['userId' => $userId],
-            'Yes, delete it!',
-            'Cancel'
-        );
-    }
-
-    public function deleteUser($params)
-    {
-        $userId = $params['userId'];
         $user = User::findOrFail($userId);
         
         // Log the action before deletion
